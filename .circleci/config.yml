@@ -26,9 +26,9 @@ jobs:
       #- run: go get -v -t -d ./...
       # - run: go test -v ./...
       - run: go get -v -t -d ./...
-      - run: docker build -t test1app-$ENVM .
+      - run: docker build -t test1app-$ENVM:latest .
       - run: docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASS
-      - run: docker push ccamilozt/test1app-$ENVM:lastest
+      - run: docker push ccamilozt/test1app-$ENVM:latest
 
 
 workflows: 
