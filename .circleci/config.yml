@@ -1,7 +1,7 @@
 # Golang CircleCI 2.0 configuration file
 #
 # Check https://circleci.com/docs/2.0/language-go/ for more details
-version: 2
+version: 2.1
 jobs:
   build:
     docker:
@@ -29,3 +29,23 @@ jobs:
       - run: docker build -t test1app-$ENVM .
       - run: docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASS
       - run: docker push ccamilozt/test1app-$ENVM:lastest
+
+
+workflows: 
+  version: 2.1
+  build-and-deploy:
+    jobs:
+      - build:
+          name: build-dev
+          context: DEV
+          filters:
+            branches:
+              only: develop
+      - build:
+          name: build-prod
+          context: PROD
+          filters:
+            branches:
+              only: master
+
+
