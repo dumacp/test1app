@@ -36,7 +36,7 @@ workflows:
   build-and-deploy-production:
     triggers:
       - schedule:
-          cron: "*/10 * * * *" 
+          cron: "* * * * *" 
           filters:
             branches:
               only:
