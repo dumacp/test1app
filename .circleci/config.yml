@@ -33,19 +33,23 @@ jobs:
 
 workflows: 
   version: 2.1
-  build-and-deploy:
+  build-and-deploy-production:
+    triggers:
+      schedule:
+        filters:
+          branches:
+            only: master
     jobs:
       - build:
-          name: build-dev
-          context: DEV
-          filters:
-            branches:
-              only: develop
-      - build:
-          name: build-prod
           context: PROD
-          filters:
-            branches:
-              only: master
+  build-and-deploy-develop:
+    triggers:
+      schedule:
+        filters:
+          branches:
+            only: develop
+    jobs:
+      - build:
+          context: DEV
 
 
