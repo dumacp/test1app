@@ -38,7 +38,8 @@ workflows:
       - schedule:
           filters:
             branches:
-              only: master
+              only:
+                - master
     jobs:
       - build:
           context: PROD
@@ -47,7 +48,8 @@ workflows:
       - schedule:
           filters:
             branches:
-              only: develop
+              only:
+                - develop
     jobs:
       - build:
           context: DEV
