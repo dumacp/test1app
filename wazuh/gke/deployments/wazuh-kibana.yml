@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kibana
+spec:
+  ports:
+  - port: 5601
+    name: kibana
+    targetPort: 5601
+    protocol: TCP
+  selector:
+    app: wazuh-kibana
+  type: NodePort
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: wazuh-kibana
+  labels:
+        app: wazuh-kibana
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: wazuh-kibana
+    spec:
+      containers:
+      - name: wazuh-kibana
+        image: wazuh/wazuh-kibana:3.8.0_6.5.4
+        ports:
+        - name: kibana
+          containerPort: 5601

@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: logstash
+spec:
+  ports:
+  - port: 5000
+    name: logstash
+    targetPort: 5000
+    protocol: TCP
+  selector:
+    app: wazuh-logstash
+  type: NodePort
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: wazuh-logstash
+  labels:
+        app: wazuh-logstash
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: wazuh-logstash
+    spec:
+      containers:
+      - name: wazuh-logstash
+        image: wazuh/wazuh-logstash:3.8.0_6.5.4
+        ports:
+        - name: logstash
+          containerPort: 5000
