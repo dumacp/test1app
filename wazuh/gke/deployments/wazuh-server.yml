@@ -24,6 +24,32 @@ spec:
     app: wazuh-server
   type: NodePort
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wazuh
+spec:
+  ports:
+  - port: 55000
+    name: wazuh-api
+    targetPort: 55000
+    protocol: TCP
+  - port: 1515
+    name: wazuh-tcp
+    targetPort: 1515
+    protocol: TCP
+  - port: 1516
+    name:  wazuh-tcp2
+    targetPort: 1516
+    protocol: TCP
+  - port: 1514
+    targetPort: 1514
+    name: wazuh-udp
+    protocol: UDP
+  selector:
+    app: wazuh-server
+  type: NodePort
+---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:

@@ -42,13 +42,13 @@ workflows:
             branches:
               only:
                 - develop
-      - build:
-          context: PROD
-          name: build-prod
-          filters:
-            branches:
-              only:
-                - master
+                  #      - build:
+                  #          context: PROD
+                  #          name: build-prod
+                  #          filters:
+                  #            branches:
+                  #              only:
+                  #                - master
 
 
 
