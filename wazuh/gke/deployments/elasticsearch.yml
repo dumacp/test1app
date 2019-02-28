@@ -37,6 +37,9 @@ spec:
       containers:
       - name: elasticsearch
         image: docker.elastic.co/elasticsearch/elasticsearch:6.5.4
+        volumeMounts:
+        - name: data-pers
+          mountPath: /usr/share/elasticsearch/data
         ports:
         - name: elasticsearch
           containerPort: 9200
@@ -58,6 +61,14 @@ spec:
            requests:
               cpu: 50m
               memory: 200Mi
+  volumeClaimTemplates:
+  - metadata:
+      name: data-pers
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 32Gi
 
           
 

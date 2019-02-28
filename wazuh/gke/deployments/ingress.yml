@@ -2,16 +2,18 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: ingress-kibana
-  #annotations:
-  #      kubernetes.io/ingress.class: nginx
+  annotations:
+    kubernetes.io/ingress.class: nginx
+
     # Use a static ip
     # enable session persistence for one or multiple services
 
 spec:
-        #    rules:
-        #    - http:
-        #        paths:
-        #        - path: /app/kibana
-          backend:
-            serviceName: kibana
-            servicePort: 5601
+  rules:
+  - host: wazuh.csiete.org
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: kibana
+          servicePort: 5601

@@ -9,7 +9,7 @@ spec:
     targetPort: 55000
     protocol: TCP
   - port: 1515
-    name: wazuh-tcp
+    name: wazuh-register
     targetPort: 1515
     protocol: TCP
   - port: 1516
@@ -18,8 +18,8 @@ spec:
     protocol: TCP
   - port: 1514
     targetPort: 1514
-    name: wazuh-udp
-    protocol: UDP
+    name: wazuh-syslog
+    protocol: TCP
   selector:
     app: wazuh-server
   type: NodePort
@@ -35,7 +35,7 @@ spec:
     targetPort: 55000
     protocol: TCP
   - port: 1515
-    name: wazuh-tcp
+    name: wazuh-register
     targetPort: 1515
     protocol: TCP
   - port: 1516
@@ -44,11 +44,33 @@ spec:
     protocol: TCP
   - port: 1514
     targetPort: 1514
-    name: wazuh-udp
-    protocol: UDP
+    name: wazuh-syslog
+    protocol: TCP
   selector:
     app: wazuh-server
   type: NodePort
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wazuh-inet
+spec:
+  ports:
+  - port: 1515
+    name: wazuh-register
+    targetPort: 1515
+    protocol: TCP
+  - port: 1516
+    name:  wazuh-tcp2
+    targetPort: 1516
+    protocol: TCP
+  - port: 1514
+    targetPort: 1514
+    name: wazuh-syslog
+    protocol: TCP
+  selector:
+    app: wazuh-server
+  type: LoadBalancer
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -63,15 +85,24 @@ spec:
       labels:
         app: wazuh-server
     spec:
+      volumes:
+       - name: config
+         configMap:
+           name: ossec-conf-v1.0
       containers:
       - name: wazuh-server
         image: wazuh/wazuh:3.8.0_6.5.4
+        volumeMounts:
+        - name: config
+          mountPath: /wazuh-config-mount/etc/ossec.conf
+          subPath: ossec.conf
+          readOnly: true
         ports:
         - name: wazuh-api
           containerPort: 55000
-        - name: wazuh-tcp
+        - name: wazuh-register
           containerPort: 1515
         - name: wazuh-tcp2
           containerPort: 1516
-        - name: wazuh-udp
+        - name: wazuh-syslog
           containerPort: 1514
