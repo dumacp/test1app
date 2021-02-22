@@ -67,7 +67,7 @@ func main() {
 
 			log.Printf("go send test msg %d", len(testmsg)/(1000*1024))
 			tk := producer1.Publish("TEST/SIZE", 1, false, testmsg)
-			if ok := tk.WaitTimeout(10 * time.Second); !ok {
+			if ok := tk.WaitTimeout(30 * time.Second); !ok {
 				log.Printf("erro timeout: %s", tk.Error())
 			}
 			time.Sleep(10 * time.Second)
