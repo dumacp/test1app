@@ -14,7 +14,7 @@ import (
 
 const (
 	remoteMqttBrokerURL = "tcp://emqx-internal-headless:1883"
-	MEGAS               = 12
+	MEGAS               = 1
 )
 
 func main() {
