@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	remoteMqttBrokerURL = "tcp://127.0.0.1:1883"
+	remoteMqttBrokerURL = "tcp://emqx-internal-headless:1883"
 )
 
 var megas int
