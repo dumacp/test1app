@@ -86,7 +86,7 @@ func main() {
 
 func connectMqtt(clientName string) (MQTT.Client, error) {
 
-	opts := MQTT.NewClientOptions().AddBroker(remoteMqttBrokerURL)
+	opts := MQTT.NewClientOptions().AddBroker(brokerURL)
 	opts.SetCleanSession(true)
 	opts.SetClientID(clientName)
 	opts.SetAutoReconnect(true)
