@@ -13,12 +13,15 @@ import (
 )
 
 const (
-	remoteMqttBrokerURL = "tcp://emqx-internal-headless:1883"
+	remoteMqttBrokerURL = "tcp://127.0.0.1:1883"
+	// remoteMqttBrokerURL = "tcp://emqx-internal-headless:1883"
 )
 
 var megas int
+var brokerURL string
 
 func init() {
+	flag.StringVar(&brokerURL, "brokerURL", "tcp://127.0.0.1:1883", "url broker")
 	flag.IntVar(&megas, "megas", 1, "MiB to send")
 }
 func main() {
