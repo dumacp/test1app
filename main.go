@@ -23,6 +23,8 @@ func init() {
 }
 func main() {
 
+	flag.Parse()
+
 	// chSub1 := make(chan []byte, 0)
 	sub1 := func(lient MQTT.Client, msg MQTT.Message) {
 
