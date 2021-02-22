@@ -12,11 +12,6 @@ import (
 	MQTT "github.com/eclipse/paho.mqtt.golang"
 )
 
-const (
-	remoteMqttBrokerURL = "tcp://127.0.0.1:1883"
-	// remoteMqttBrokerURL = "tcp://emqx-internal-headless:1883"
-)
-
 var megas int
 var brokerURL string
 
