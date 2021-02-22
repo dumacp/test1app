@@ -1,7 +1,7 @@
 package main
 
 import (
-	"bytes"
+	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -13,31 +13,22 @@ import (
 )
 
 const (
-	remoteMqttBrokerURL = "tcp://emqx-internal-headless:1883"
-	MEGAS               = 1
+	remoteMqttBrokerURL = "tcp://127.0.0.1:1883"
 )
 
+var megas int
+
+func init() {
+	flag.IntVar(&megas, "megas", 1, "MiB to send")
+}
 func main() {
 
 	// chSub1 := make(chan []byte, 0)
 	sub1 := func(lient MQTT.Client, msg MQTT.Message) {
 
-		buff := bytes.NewReader(msg.Payload())
-		buffer := make([]byte, 1024)
-
-		func() {
-			res := make([]byte, 0)
-			defer func() {
-				log.Printf("len file: %d", len(res)/1024)
-			}()
-			for {
-				n, err := buff.Read(buffer)
-				if err != nil {
-					return
-				}
-				res = append(res, buffer[:n]...)
-			}
-		}()
+		go func(data []byte) {
+			log.Printf("len file: %d", len(data)/1024)
+		}(msg.Payload())
 	}
 
 	consumer1, err := connectMqtt("go-consumer1")
@@ -60,7 +51,7 @@ func main() {
 
 	testmsg := make([]byte, 0)
 
-	for i := 0; i < MEGAS*1024; i++ {
+	for i := 0; i < megas*1024; i++ {
 		testmsg = append(testmsg, chunkmsq...)
 	}
 
